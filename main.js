@@ -11,7 +11,6 @@ switch (difficolta) {
     }
     case 1: {
         alert('Hai scelto la modalità Intermedio.');
-
         var maximum = 80;
         break;
     }
@@ -52,14 +51,13 @@ function generaRandom(min, max) {
 // La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
 
 
-// First things First: creiamo un punteggio 0, una flag per uscire dagli while e un array vuota per lo storico input dell'utente
-var point = 0;
+// First things First: creiamo una flag per uscire dagli while e un array vuota per lo storico input dell'utente
 var inside = false;
 var storico_utente = [];
 // Apriamo un while con le sue piccole if interne (se non è un numero, se non è compreso tra 1 e 100, e se una mina viene pistata);
 // ad ogni caso appare un alert e la variabile inside diventa true ---> Game Over!
 // A rigor di logica, si sarebbe potuto anche usare un ciclo do...while credo...
-while ((point < (max_case - 16)) && (inside == false)) {
+while ((storico_utente.length < (max_case - 16)) && (inside == false)) {
     var num_utente = parseInt(prompt('Inserisci un numero compreso tra 1 e ' + max_case + ' per favore.'));
     // Abuso clamoroso di if...else if: si sarebbe potuto usare uno Switch...Case
     if (!num_utente) {
@@ -74,18 +72,22 @@ while ((point < (max_case - 16)) && (inside == false)) {
         alert('Ops hai pistato una mina, hai perso.');
     }// qui gira il tutto: se tutto le condizioni sono passate (è un numero, compreso tra 1 e 100, e non fa parte dall'Array mine), allora lo pusha dentro lo storico utente, segna un punticino, e rinizia il ciclo While!!!
     else {
-        storico_utente.push(num_utente);
-    }
-    point ++;
+        // questa è la if annidata per evitare che l'utente ripeta un numero già digitato, semplice ma efficace.
+        if (storico_utente.includes(num_utente)) {
+            alert('Attenzione, hai già inserito questo numero.');
+        } else {
+            storico_utente.push(num_utente);
+        };
+    };
 };
 // Condizione per non congratularsi in caso abbia sbagliato al primissimo tentativo, sarebbe una presa per il culo!
-if (point > 1) {
-    alert ('Rallegrati però, hai totalizzato un bel ' + (point - 1) + ' di punteggio. Non male!')
+if (storico_utente.length > 1) {
+    alert ('Rallegrati però, hai totalizzato un bel ' + (storico_utente.length - 1) + ' di punteggio. Non male!')
 }// Remoto caso in cui il giocatore riesca ad attraversare tutto il campo minato senza mai pistare una mina
 else if (inside == false) {
     alert('Non ci posso credere, sei riuscito ad oltrepassare il campo minato, hai vinto!!!');
 };
 // log finale del tutto
 console.log('I numeri che hai scelto sono ' + storico_utente);
-console.log('Hai totalizzato un bel '  + (point - 1) + ' di punteggio.');
+console.log('Hai totalizzato un bel '  + ((storico_utente.length) - 1) + ' di punteggio.');
 console.log('Queste erano le mine ' + mine);
