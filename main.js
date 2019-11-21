@@ -1,6 +1,31 @@
 // BONUS: all’inizio il software richiede anche una difficoltà all’utente che cambia il range di numeri casuali.
 // Con difficoltà 0=> tra 1 e 100, con difficoltà 1 =>  tra 1 e 80, con difficoltà 2=> tra 1 e 50
 
+// Creo uno Switch case che si riaggiorna nel caso default, e che imposti un valore massimo a tutto il programma in base all'input dell'utente; naturalmente, ho dovuto riaggiornare il random, togliendo quel 100 fisso, alcuni alert, e la condizione while dove il punteggio d'arrivo non sarà più 100 - 16 ma il max_case sottratte le 16 mine.
+var difficolta = parseInt(prompt('A quale livello vuoi giocare? O = Principiante; 1 = Intermedio; 2 = Difficile.'))
+switch (difficolta) {
+    case 0: {
+        alert('Hai scelto la modalità Pincipiante.');
+        var maximum = 100;
+        break;
+    }
+    case 1: {
+        alert('Hai scelto la modalità Intermedio.');
+
+        var maximum = 80;
+        break;
+    }
+    case 2: {
+        alert('Hai scelto la modalità Difficile.');
+        var maximum = 50;
+        break;
+    }
+    default: {
+        window.location.reload();
+    }
+}
+var max_case = maximum;
+console.log(max_case);
 
 // Il computer deve generare 16 numeri casuali tra 1 e 100 (queste saranno le mine).
 
@@ -8,7 +33,7 @@
 // Come visto stamattina, con un ciclo while con lunghezza massima di 16 valori, creo una Array in cui ci siano sicuramente 16 numeri che siano tutti diversi tra di loro;
 var mine = [];
 while(mine.length < 16) {
-    var numero = generaRandom(1, 100);
+    var numero = generaRandom(1, max_case);
     if(!mine.includes(numero)) {
         mine.push(numero);
     }
@@ -34,15 +59,15 @@ var storico_utente = [];
 // Apriamo un while con le sue piccole if interne (se non è un numero, se non è compreso tra 1 e 100, e se una mina viene pistata);
 // ad ogni caso appare un alert e la variabile inside diventa true ---> Game Over!
 // A rigor di logica, si sarebbe potuto anche usare un ciclo do...while credo...
-while ((point < 84) && (inside == false)) {
-    var num_utente = parseInt(prompt('Inserisci un numero compreso tra 1 e 100 per favore.'));
+while ((point < (max_case - 16)) && (inside == false)) {
+    var num_utente = parseInt(prompt('Inserisci un numero compreso tra 1 e ' + max_case + ' per favore.'));
     // Abuso clamoroso di if...else if: si sarebbe potuto usare uno Switch...Case
     if (!num_utente) {
         alert('Non hai inserito un numero, hai perso.');
         var inside = true;
-    } else if ((num_utente < 1) || (num_utente > 100)) {
+    } else if ((num_utente < 1) || (num_utente > max_case)) {
         var inside = true;
-        alert('Il numero che hai scelto non è compreso tra 1 e 100, hai perso.');
+        alert('Il numero che hai scelto non è compreso tra 1 e ' + max_case +', hai perso.');
     } else if (mine.includes(num_utente)) {
         storico_utente.push(num_utente);
         var inside = true;
