@@ -24,7 +24,7 @@ switch (difficolta) {
     }
 }
 var max_case = maximum;
-console.log(max_case);
+
 
 // Il computer deve generare 16 numeri casuali tra 1 e 100 (queste saranno le mine).
 
@@ -38,7 +38,13 @@ while(mine.length < 16) {
     }
 };
 // Una volta terminato il while, fuori, scriviamo cos'è uscito, cioè l`array finale, per fare le prove in console quando il programma sarà finito.
-console.log(mine);
+// Ho creato una funzione per mettere in ordine crescente i numery dell'Array, ora è più scorrevole
+function myNumbSorting(array){
+  array.sort(function(a, b){return a-b});
+  return array;
+};
+var ordine = myNumbSorting(mine);
+console.log(ordine);
 
 // funzione che genera un numero random tra min e max
 function generaRandom(min, max) {
@@ -77,6 +83,8 @@ while ((storico_utente.length < (max_case - 16)) && (inside == false)) {
             alert('Attenzione, hai già inserito questo numero.');
         } else {
             storico_utente.push(num_utente);
+            var aggiorna = myNumbSorting(storico_utente);
+            console.log(storico_utente);
         };
     };
 };
